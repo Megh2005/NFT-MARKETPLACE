@@ -1,19 +1,21 @@
 "use client";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import {
     FaHome,
     FaInfoCircle,
-    FaUsers,
     FaPhoneAlt,
-    FaServicestack,
     FaComments,
+    FaUserCircle, // Profile icon
+    FaEarlybirds,
 } from "react-icons/fa"; // Import icons from react-icons
 import Link from "next/link";
+import { BrowserProvider } from "ethers";
 
 const Navbar = () => {
-    const [activeLink, setActiveLink] = useState("home"); // Track active link
+    const [activeLink, setActiveLink] = useState("home");
 
-    // Handle active link state with an explicit type for 'link'
+
+
     const handleLinkClick = (link) => {
         setActiveLink(link);
     };
@@ -44,13 +46,13 @@ const Navbar = () => {
                         </span>
                     </Link>
                     <Link
-                        href="/explore"
+                        href="/list"
                         className={`relative group hover:text-blue-500`}
-                        onClick={() => handleLinkClick("services")}
+                        onClick={() => handleLinkClick("list")}
                     >
-                        <FaServicestack className="inline-block mr-2" />
+                        <FaEarlybirds className="inline-block mr-2" />
                         <span className="absolute bottom-full left-1/2 transform -translate-x-1/2 text-xs text-white opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                            Explore
+                            Enlist
                         </span>
                     </Link>
                     <Link
@@ -61,6 +63,16 @@ const Navbar = () => {
                         <FaComments className="inline-block mr-2" />
                         <span className="absolute bottom-full left-1/2 transform -translate-x-1/2 text-xs text-white opacity-0 group-hover:opacity-100 transition-opacity duration-200">
                             Testimonials
+                        </span>
+                    </Link>
+                    <Link
+                        href="/profile"
+                        className={`relative group hover:text-blue-500`}
+                        onClick={() => handleLinkClick("profile")}
+                    >
+                        <FaUserCircle className="inline-block mr-2" />
+                        <span className="absolute bottom-full left-1/2 transform -translate-x-1/2 text-xs text-white opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                            Profile
                         </span>
                     </Link>
                     <Link

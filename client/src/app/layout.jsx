@@ -2,6 +2,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { ThemeProvider } from "next-themes";
 import Navbar from "@/components/Navbar";
+import { WalletContextProvider } from "@/context/wallet";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -27,19 +28,21 @@ export default function RootLayout({ children }) {
         <meta name="description" content={metadata.description} />
         <link rel="shortcut icon" href="https://res.cloudinary.com/djyk287ep/image/upload/v1731309202/TJP_dgmjtt.png" type="image/x-icon" />
       </head>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem
-          disableTransitionOnChange
+      <WalletContextProvider>
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
-          <Navbar />
-          {children}
-        </ThemeProvider>
-      </body>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <Navbar />
+            {children}
+          </ThemeProvider>
+        </body>
+      </WalletContextProvider>
     </html>
   );
 }

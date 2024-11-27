@@ -1,12 +1,48 @@
 "use client";
 
 import { AuroraBackground } from "@/components/ui/aurora-background";
+import { WalletContext } from "@/context/wallet";
+import { BrowserProvider } from "ethers";
 import { motion } from "framer-motion";
-import React from "react";
+import { useContext } from "react";
 
 export default function AuroraBackgroundDemo() {
+  const {
+    isConnected,
+    setIsConnected,
+    userAddress,
+    setUserAddress,
+    signer,
+    setSigner,
+  } = useContext(WalletContext);
+
+  const connectWallet = async () => {
+    if (!window.ethereum) {
+      throw new Error("Wallet is not installed");
+    }
+
+    try {
+      const provider = new BrowserProvider(window.ethereum);
+      const signer = await provider.getSigner();
+      setSigner(signer);
+      const accounts = await provider.send("eth_requestAccounts", []);
+      setIsConnected(true);
+      setUserAddress(accounts[0]);
+      const network = await provider.getNetwork();
+      const chainID = network.chainId;
+      const sepoliaNetworkId = "43113";
+
+      if (chainID.toString() !== sepoliaNetworkId) {
+        alert("Please switch your Wallet to Avalanche network");
+        return;
+      }
+    } catch (error) {
+      console.error("connection error: ", error);
+    }
+  };
+
   return (
-    (<AuroraBackground>
+    <AuroraBackground>
       <motion.div
         initial={{ opacity: 0.0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -15,12 +51,12 @@ export default function AuroraBackgroundDemo() {
           duration: 0.8,
           ease: "easeInOut",
         }}
-        className="relative flex flex-col gap-4 items-center justify-center px-4">
+        className="relative flex flex-col gap-4 items-center justify-center px-4"
+      >
         <div className="text-3xl capitalize md:text-7xl font-bold dark:text-white text-center">
           Create & Claim Your Ownership
         </div>
-        <div
-          className="font-extralight capitalize text-base md:text-4xl dark:text-neutral-200 py-4">
+        <div className="font-extralight capitalize text-base md:text-4xl dark:text-neutral-200 py-4">
           Because you are the owner of your data
         </div>
         <button
@@ -36,6 +72,7 @@ export default function AuroraBackgroundDemo() {
           }}
           onMouseOver={(e) => (e.target.style.backgroundColor = "#E5E7EB")}
           onMouseOut={(e) => (e.target.style.backgroundColor = "#F3F4F6")}
+          onClick={connectWallet} // Connect wallet on button click
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -53,10 +90,13 @@ export default function AuroraBackgroundDemo() {
               fill="#E84142"
             />
           </svg>
-          Connect with Avalanche
+          {isConnected ? (
+            <>{userAddress?.slice(0, 42)}</>
+          ) : (
+            "Connect with Avalanche"
+          )}
         </button>
-
       </motion.div>
-    </AuroraBackground>)
+    </AuroraBackground>
   );
 }
