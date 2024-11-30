@@ -5,11 +5,11 @@ import {
     FaInfoCircle,
     FaPhoneAlt,
     FaComments,
-    FaUserCircle, // Profile icon
+    FaUserCircle,
     FaEarlybirds,
-} from "react-icons/fa"; // Import icons from react-icons
+    FaBahai,
+} from "react-icons/fa";
 import Link from "next/link";
-import { BrowserProvider } from "ethers";
 
 const Navbar = () => {
     const [activeLink, setActiveLink] = useState("home");

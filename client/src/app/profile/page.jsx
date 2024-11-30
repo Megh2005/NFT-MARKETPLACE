@@ -114,12 +114,12 @@ export default function Profile() {
                                         ))}
                                     </div>
                                 ) : (
-                                    <div className={styles.noNFT}>You don't have any NFT...</div>
+                                    <div className={styles.noNFT}>You don't have any NFT</div>
                                 )}
                             </div>
                         </>
                     ) : (
-                        <div className={styles.notConnected}>You are not connected...</div>
+                        <div className={styles.notConnected}>You are not connected</div>
                     )}
                 </div>
             </div>

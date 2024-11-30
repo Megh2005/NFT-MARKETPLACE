@@ -84,7 +84,7 @@ export default function SellNFT() {
             updateMessage("");
             updateFormParams({ name: "", description: "", price: "" });
             alert("Successfully listed your NFT!");
-            router.push("/");
+            router.push("/list");
         } catch (e) {
             alert("Upload error", e);
         }
